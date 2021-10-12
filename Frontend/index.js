@@ -1,4 +1,3 @@
-
 const $container = document.getElementById('container');
 const $home_page = document.getElementById('home_page');
 const $name_input_create_game = document.getElementById('name_input_create_game');
