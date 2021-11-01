@@ -18,7 +18,6 @@ contract Token{
     // pot to balance
     mapping (string => uint256) public balanceOfPot;
     
-    
     uint256 public count;
     
     event Transfered(
