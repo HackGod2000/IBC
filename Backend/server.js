@@ -268,7 +268,7 @@ async function request_account_balance() {
     .call();
   console.log(balance);
 }
-request_account_balance();
+//request_account_balance();
 // web3 setup ......................................................
 
 function makeid(length) {
@@ -321,28 +321,45 @@ function updateTurn(room_id, move) {
       gamePlayData[room_id]["turn"] %= gamePlayData[room_id]["totalPlayers"];
     }
   }
+  console.log("Turn Complete");
   io.to(room_id).emit("turn complete", gamePlayData[room_id], move);
 }
+
+// function transactionHandler(amount, action) {
+//   let toContract = current_user.room_id;
+//   let client_id = current_user.client_id;
+
+//   game_chips.transfer(toContract, amount, client_id, action, (e, r) => {
+//     if (e) console.log(JSON.stringify(e));
+//     else {
+//       console.log(action + " Tx Hash " + r);
+//       socket.emit(action, current_user.room_id, current_user.client_id);
+//       //game_chips.allEvents();
+//     }
+//   });
+// }
 
 function endGame(room_id, win_indexes) {
   if (win_indexes.length == 1) {
     let cid = users[room_id][win_indexes[0]].client_id;
     let add = address_records[room_id][cid];
 
+    io.to(room_id).emit("game completed", gamePlayData[room_id], win_indexes);
+    //handle this promise rejection.
     console.log("Sending to : " + add);
     game_chips_contract.methods
       .winnerTransfer(room_id, add)
       .send({
         from: process.env.ACCOUNT,
       })
-      .on("receipt", function (confirmationNumber, receipt) {
+      .on("receipt", (confirmationNumber, receipt) => {
         console.log("confirmed transaction");
-
-        io.to(room_id).emit(
-          "game completed",
-          gamePlayData[room_id],
-          win_indexes
-        );
+      })
+      .catch((e) => {
+        if (e) {
+          console.log("Error Occcured while running ON ");
+          console.log(JSON.stringify(e));
+        }
       });
   } else {
     let cid1 = users[room_id][win_indexes[0]].client_id;
@@ -357,7 +374,7 @@ function endGame(room_id, win_indexes) {
       .send({
         from: process.env.ACCOUNT,
       })
-      .on("confirmation", function (confirmationNumber, receipt) {
+      .on("confirmation", (confirmationNumber, receipt) => {
         console.log("confirmation reciept");
         console.log(receipt);
 
@@ -421,7 +438,7 @@ io.on("connection", (client) => {
     client.join(room_id);
     io.to(room_id).emit("new users", users[room_id]);
 
-    console.log(user);
+    //console.log(user);
     console.log(users);
     console.log(io.sockets.adapter.rooms);
   });
@@ -452,9 +469,9 @@ io.on("connection", (client) => {
     client.join(room_id);
     io.to(room_id).emit("new users", users[room_id]);
 
-    console.log(user);
-    console.log(users);
-    console.log(io.sockets.adapter.rooms);
+    //console.log(user);
+    //console.log(users);
+    //console.log(io.sockets.adapter.rooms);
   });
 
   client.on("send message", (message, sender, room_id) => {
@@ -551,6 +568,9 @@ io.on("connection", (client) => {
   // Make bet...
   client.on("make bet", (room_id, client_id) => {
     let pidx = players[client_id];
+    console.log(
+      client_id + " is making bet for" + gamePlayData[room_id]["betValue"]
+    );
     if (pidx != gamePlayData[room_id]["turn"]) {
       client.emit("its not your turn");
     } else {
@@ -564,7 +584,7 @@ io.on("connection", (client) => {
         gamePlayData[room_id]["pot"] += betValue;
         gamePlayData[room_id]["user"][pidx]["currentBet"] += betValue;
       }
-      updateTurn(room_id, "Make Bet");
+      updateTurn(room_id, "make bet");
     }
   });
   // Make bet...
@@ -577,6 +597,7 @@ io.on("connection", (client) => {
     } else {
       gamePlayData[room_id]["betValue"] *= 2;
       var betValue = gamePlayData[room_id]["betValue"];
+
       if (gamePlayData[room_id]["user"][pidx]["blind"] == true) {
         gamePlayData[room_id]["user"][pidx]["value"] -= betValue / 2;
         gamePlayData[room_id]["pot"] += betValue / 2;
@@ -586,7 +607,7 @@ io.on("connection", (client) => {
         gamePlayData[room_id]["pot"] += betValue;
         gamePlayData[room_id]["user"][pidx]["currentBet"] += betValue;
       }
-      updateTurn(room_id, "Raise Bet");
+      updateTurn(room_id, "raise bet");
     }
   });
   // Raise bet...
@@ -681,6 +702,7 @@ io.on("connection", (client) => {
   // Request show...
   client.on("request show", (room_id, client_id) => {
     let pidx = players[client_id];
+    console.log("Requesting Show");
     if (pidx != gamePlayData[room_id]["turn"]) {
       client.emit("its not your turn");
     } else if (gamePlayData[room_id]["livePlayers"] != 2) {
@@ -752,7 +774,7 @@ io.on("connection", (client) => {
       gamePlayData[room_id]["user"][pidx]["live"] = false;
       gamePlayData[room_id]["livePlayers"]--;
 
-      updateTurn(room_id, "Fold");
+      updateTurn(room_id, "fold");
 
       if (gamePlayData[room_id]["livePlayers"] == 1) {
         gamePlayData[room_id]["user"][gamePlayData[room_id]["turn"]]["value"] +=
