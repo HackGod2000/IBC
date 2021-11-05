@@ -1,34 +1,39 @@
-const $container = document.getElementById('container');
-const $home_page = document.getElementById('home_page');
-const $name_input_create_game = document.getElementById('name_input_create_game');
-const $create_game_div = document.getElementById('create_game_div');
-const $name_input_join_game = document.getElementById('name_input_join_game');
-const $room_id_input = document.getElementById('room_id_input');
-const $join_game_div = document.getElementById('join_game_div');
-const $start_page = document.getElementById('start_page');
-const $room_id_display = document.getElementById('room_id_display');
-const $active_users = document.getElementById('active_users');
-const $start_game_div = document.getElementById('start_game_div');
-const $game_content = document.getElementById('game_content');
-const $table_container = document.getElementById('table_container');
-const $topbar = document.getElementById('topbar');
-const $chat_messages_display = document.getElementById('chat_messages_display');
-const $chat_input = document.getElementById('chat_input');
-const $score_board_list = document.getElementById('score_board_list');
-const $last_move_list = document.getElementById('last_move_list');
-const $winnerTitle = document.getElementById('winnerTitle');
-const $winnerDislplayContainer = document.getElementById('winnerDislplayContainer');
-const $name_required_1 = document.getElementById('name_required_1');
-const $name_required_2 = document.getElementById('name_required_2');
-const $name_required_3 = document.getElementById('name_required_3');
-const $room_id_required = document.getElementById('room_id_required');
+const $container = document.getElementById("container");
+const $home_page = document.getElementById("home_page");
+const $name_input_create_game = document.getElementById(
+  "name_input_create_game"
+);
+const $create_game_div = document.getElementById("create_game_div");
+const $name_input_join_game = document.getElementById("name_input_join_game");
+const $room_id_input = document.getElementById("room_id_input");
+const $join_game_div = document.getElementById("join_game_div");
+const $start_page = document.getElementById("start_page");
+const $room_id_display = document.getElementById("room_id_display");
+const $active_users = document.getElementById("active_users");
+const $start_game_div = document.getElementById("start_game_div");
+const $game_content = document.getElementById("game_content");
+const $table_container = document.getElementById("table_container");
+const $topbar = document.getElementById("topbar");
+const $chat_messages_display = document.getElementById("chat_messages_display");
+const $chat_input = document.getElementById("chat_input");
+const $score_board_list = document.getElementById("score_board_list");
+const $last_move_list = document.getElementById("last_move_list");
+const $winnerTitle = document.getElementById("winnerTitle");
+const $winnerDislplayContainer = document.getElementById(
+  "winnerDislplayContainer"
+);
+const $name_required_1 = document.getElementById("name_required_1");
+const $name_required_2 = document.getElementById("name_required_2");
+const $name_required_3 = document.getElementById("name_required_3");
+const $room_id_required = document.getElementById("room_id_required");
 
-const $buy_tokens_div = document.getElementById('buy_tokens_div');
-const $connect_metamask_button = document.getElementById('connect_metamask_button');
-const $wallet_ad_display = document.getElementById('wallet_ad_display');
-const $token_amount = document.getElementById('token_amount');
-const $connect_portis_button = document.getElementById('connect_portis_button');
-
+const $buy_tokens_div = document.getElementById("buy_tokens_div");
+const $connect_metamask_button = document.getElementById(
+  "connect_metamask_button"
+);
+const $wallet_ad_display = document.getElementById("wallet_ad_display");
+const $token_amount = document.getElementById("token_amount");
+const $connect_portis_button = document.getElementById("connect_portis_button");
 
 var game_chips_contract = undefined;
 var game_chips = undefined;
@@ -526,8 +531,6 @@ async function request_account() {
 
 // Metamask ...................
 
-
-
 // Portis .....................
 
 // Portis .....................
@@ -620,6 +623,9 @@ function web3_required() {
       let action = "request side show";
       transactionHandler(amount, action);
     }
+    if (gamePlayData["livePlayers"] <= 2) {
+      alert("More than 2 players are required for side show");
+    }
   });
   // request side show...
   // request show...
@@ -652,43 +658,38 @@ const current_user = {
   admin: false,
 };
 
+$create_game_div.addEventListener("click", (e) => {
+  console.log("Printing metamask button status");
+  console.log($connect_metamask_button.disabled);
+  if ($connect_metamask_button.disabled === true) {
+    const name = $name_input_create_game.value;
 
-$create_game_div.addEventListener('click', (e) => {
+    if (name == "") {
+      name_required_1.style.display = "block";
+      return;
+    }
 
-        console.log("Printing metamask button status");
-        console.log($connect_metamask_button.disabled);
-        if($connect_metamask_button.disabled === true)
-        {
+    current_user.name = name;
 
-                const name = $name_input_create_game.value;
+    socket.emit("create new game", name);
+    current_user.admin = true;
+    $start_game_div.style.display = "block";
 
-                if (name == "") {
-                        name_required_1.style.display = "block"
-                        return;
-                }
-
-                current_user.name = name;
-
-                socket.emit('create new game', name);
-                current_user.admin = true;
-                $start_game_div.style.display = 'block';
-
-                // options only for the person who created game.
-                // $topbar.appendChild($flip);
-                // $topbar.appendChild($shuffle);
-                // $topbar.appendChild($bysuit);
-                // $topbar.appendChild($fan);
-                // $topbar.appendChild($sort);
-                /**
-                 * admin is the first user to start the game, so admin is the only one who has distribute button
-                 * enabled, this distribute button is also toggled when starting next round.
-                 */
-                $topbar.appendChild($distribute);
-        }
-        else{
-                name_required_3.style.display = "block"
-                return;
-        }
+    // options only for the person who created game.
+    // $topbar.appendChild($flip);
+    // $topbar.appendChild($shuffle);
+    // $topbar.appendChild($bysuit);
+    // $topbar.appendChild($fan);
+    // $topbar.appendChild($sort);
+    /**
+     * admin is the first user to start the game, so admin is the only one who has distribute button
+     * enabled, this distribute button is also toggled when starting next round.
+     */
+    $topbar.appendChild($distribute);
+  } else {
+    name_required_3.style.display = "block";
+    return;
+  }
 });
 
 $join_game_div.addEventListener("click", (e) => {
@@ -1429,29 +1430,26 @@ socket.on("turn complete", (gamePlayDataServer, move) => {
 
   console.log("Move made : " + move);
   display_move_ui(previousTurn, move);
-// View cards .........................
-socket.on("view own cards", (data,gamePlayDataServer) => {
+  // View cards .........................
+  socket.on("view own cards", (data, gamePlayDataServer) => {
+    console.log("View request");
+    gamePlayData = gamePlayDataServer;
+    // modifying cards
+    var num_cards = data.length;
+    console.log(data.length);
+    for (var j = 0; j < data.length; j++) {
+      var i = data[j].card_idx;
+      var rank = (i % 13) + 1;
+      var suit = (i / 13) | 0;
 
-        console.log("View request")
-        gamePlayData = gamePlayDataServer;
-        // modifying cards 
-        var num_cards = data.length;
-        console.log(data.length);
-        for (var j = 0; j < data.length; j++) {
-
-                var i = data[j].card_idx;
-                var rank = i % 13 + 1;
-                var suit = i / 13 | 0;
-
-                deck.cards[data[j].deck_idx].i = i;
-                deck.cards[data[j].deck_idx].rank = rank;
-                deck.cards[data[j].deck_idx].suit = suit;
-                deck.cards[data[j].deck_idx].enableDragging();
-                deck.cards[data[j].deck_idx].setSide('front');
-        }
-
-})
-// View cards .........................
+      deck.cards[data[j].deck_idx].i = i;
+      deck.cards[data[j].deck_idx].rank = rank;
+      deck.cards[data[j].deck_idx].suit = suit;
+      deck.cards[data[j].deck_idx].enableDragging();
+      deck.cards[data[j].deck_idx].setSide("front");
+    }
+  });
+  // View cards .........................
 
   // move cards of player previousTurn to deck.
   if (move == "Fold") deck.queue(fold_cards_animation(previousTurn));
