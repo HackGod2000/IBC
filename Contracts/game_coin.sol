@@ -3,11 +3,11 @@ pragma solidity ^0.5.0;
 contract Token{
     
     string  public name = "CHIPS";
-    string  public symbol = "CHP";
+    string  public symbol = "YST";
     string  public standard = "CHIPS v1.0";
     
-    uint256 private totalSupply;
-    uint256 public tokenPrice;
+    uint256 private totalSupply= 10000000000000000;
+    uint256 public tokenPrice=1;
     uint256 public etherAmount;
     address payable owner;
 
@@ -34,11 +34,9 @@ contract Token{
         uint256 _numberOfTokens
     );
    
-    constructor (uint256 initialSupply,uint256 pricePerToken) public {
+    constructor () public {
         owner = msg.sender;
-        totalSupply = initialSupply;
         balanceOf[owner] = totalSupply;
-        tokenPrice = pricePerToken;
     }
     
     function multiply(uint x, uint y) internal pure returns (uint z) {
@@ -47,7 +45,7 @@ contract Token{
     
     function buyTokens(uint256 numberOfTokens) public payable returns (bool){
         
-        require(msg.value == multiply(numberOfTokens, tokenPrice),"Insufficient ether for required amount of tokens");
+        //require(msg.value == multiply(numberOfTokens, tokenPrice),"Insufficient ether shreeya for required amount of tokens");
         
         require(balanceOf[owner] > numberOfTokens,"Insufficient Liquidity for this token");
 

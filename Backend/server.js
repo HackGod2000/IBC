@@ -3,6 +3,13 @@ const app = express(); // creating an express application
 const cors = require("cors");
 const e = require("cors");
 app.use(cors()); // setting up cors for app
+const Web3 = require("web3");
+const fs = require("fs");
+
+const ABI = require("./abi.json");
+
+var web3 = new Web3(new Web3.providers.HttpProvider('http://127.0.0.1:7545'));
+
 
 const port = process.env.PORT || 3000; // specifying port
 
@@ -16,260 +23,21 @@ const io = require("socket.io")(http, {
 
 // web3 setup ......................................................
 
-const Web3 = require("web3");
-const HDWalletProvider = require("@truffle/hdwallet-provider");
-process.env.PRIVATE_KEY =
-  "c08a5cf709cd10a008ec9b167e86e1b2a3e484947a3faef22de27a11cdae8173";
-process.env.ACCOUNT = "0x8cBe9bCbeb8608AedAa7b45a4Bb6Af1c055bb893";
-process.env.RPC_URL =
-  "https://rpc-mumbai.maticvigil.com/v1/f089913a68315a36fbd0951f9d05c0510b10e859";
-// WEB3 CONFIG
-const web3 = new Web3(
-  new HDWalletProvider(process.env.PRIVATE_KEY, process.env.RPC_URL)
-);
 
-const CONTRACT_ABI = [
-  {
-    constant: !1,
-    inputs: [
-      { internalType: "uint256", name: "numberOfTokens", type: "uint256" },
-    ],
-    name: "buyTokens",
-    outputs: [{ internalType: "bool", name: "", type: "bool" }],
-    payable: !0,
-    stateMutability: "payable",
-    type: "function",
-  },
-  {
-    constant: !1,
-    inputs: [],
-    name: "sendContractAmountToOwner",
-    outputs: [],
-    payable: !0,
-    stateMutability: "payable",
-    type: "function",
-  },
-  {
-    constant: !1,
-    inputs: [
-      { internalType: "string", name: "pot", type: "string" },
-      { internalType: "uint256", name: "numberOfTokens", type: "uint256" },
-      { internalType: "string", name: "clientId", type: "string" },
-      { internalType: "string", name: "viaEvent", type: "string" },
-    ],
-    name: "transfer",
-    outputs: [{ internalType: "bool", name: "", type: "bool" }],
-    payable: !1,
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      { internalType: "uint256", name: "initialSupply", type: "uint256" },
-      { internalType: "uint256", name: "pricePerToken", type: "uint256" },
-    ],
-    payable: !1,
-    stateMutability: "nonpayable",
-    type: "constructor",
-  },
-  {
-    anonymous: !1,
-    inputs: [
-      { indexed: !0, internalType: "address", name: "_from", type: "address" },
-      { indexed: !1, internalType: "address", name: "_to", type: "address" },
-      {
-        indexed: !1,
-        internalType: "uint256",
-        name: "_numberOfTokens",
-        type: "uint256",
-      },
-    ],
-    name: "Transfered",
-    type: "event",
-  },
-  {
-    anonymous: !1,
-    inputs: [
-      { indexed: !0, internalType: "address", name: "_from", type: "address" },
-      { indexed: !1, internalType: "string", name: "_to", type: "string" },
-      {
-        indexed: !1,
-        internalType: "string",
-        name: "_clientId",
-        type: "string",
-      },
-      {
-        indexed: !1,
-        internalType: "string",
-        name: "_viaEvent",
-        type: "string",
-      },
-      {
-        indexed: !1,
-        internalType: "uint256",
-        name: "_numberOfTokens",
-        type: "uint256",
-      },
-    ],
-    name: "TransferedToPot",
-    type: "event",
-  },
-  {
-    constant: !1,
-    inputs: [
-      { internalType: "string", name: "pot", type: "string" },
-      { internalType: "address", name: "to", type: "address" },
-    ],
-    name: "winnerTransfer",
-    outputs: [{ internalType: "bool", name: "", type: "bool" }],
-    payable: !1,
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    constant: !1,
-    inputs: [
-      { internalType: "string", name: "pot", type: "string" },
-      { internalType: "address", name: "to1", type: "address" },
-      { internalType: "address", name: "to2", type: "address" },
-    ],
-    name: "winnerTransferTie",
-    outputs: [{ internalType: "bool", name: "", type: "bool" }],
-    payable: !1,
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    constant: !0,
-    inputs: [{ internalType: "address", name: "", type: "address" }],
-    name: "balanceOf",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    payable: !1,
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    constant: !0,
-    inputs: [{ internalType: "string", name: "", type: "string" }],
-    name: "balanceOfPot",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    payable: !1,
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    constant: !0,
-    inputs: [],
-    name: "count",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    payable: !1,
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    constant: !0,
-    inputs: [],
-    name: "etherAmount",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    payable: !1,
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    constant: !0,
-    inputs: [],
-    name: "getBalance",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    payable: !1,
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    constant: !0,
-    inputs: [{ internalType: "address", name: "id", type: "address" }],
-    name: "getBalanceOther",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    payable: !1,
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    constant: !0,
-    inputs: [{ internalType: "string", name: "id", type: "string" }],
-    name: "getBalancePot",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    payable: !1,
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    constant: !0,
-    inputs: [],
-    name: "getContractBalance",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    payable: !1,
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    constant: !0,
-    inputs: [],
-    name: "name",
-    outputs: [{ internalType: "string", name: "", type: "string" }],
-    payable: !1,
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    constant: !0,
-    inputs: [],
-    name: "standard",
-    outputs: [{ internalType: "string", name: "", type: "string" }],
-    payable: !1,
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    constant: !0,
-    inputs: [],
-    name: "symbol",
-    outputs: [{ internalType: "string", name: "", type: "string" }],
-    payable: !1,
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    constant: !0,
-    inputs: [],
-    name: "tokenPrice",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    payable: !1,
-    stateMutability: "view",
-    type: "function",
-  },
-];
+process.env.ACCOUNT = "0x0A01b9fF422300177D54D4C09bf3961Eb2B417F2";
 
-const CONTRACT_ADDRESS = "0x681f6aF0c05e1a667FDd336d5dE6f14CFDa2b3fd";
 
-var game_chips_contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
 
-async function request_account_balance() {
-  let result = await game_chips_contract.methods.getBalanceOther(
-    process.env.ACCOUNT
-  );
+// if(!TokenData){
+//   console.log("Token Contract not deployed");
+// }
 
-  // let result = await game_chips_contract.methods.getBalance().call({}, function(e, r){
-  //       console.log(r);
-  // });
-  console.log(result);
 
-  let balance = await game_chips_contract.methods
-    .getBalanceOther(process.env.ACCOUNT)
-    .call();
-  console.log(balance);
-}
-//request_account_balance();
-// web3 setup ......................................................
+var game_chips_contract = new web3.eth.Contract(ABI,"0xd12f5f5049D9Cf749Bfb3B7CC9E30ce394b2d0ba");
+
+console.log(game_chips_contract)
+
+//web3 setup ......................................................
 
 function makeid(length) {
   // utility function to create a new room id
@@ -325,26 +93,11 @@ function updateTurn(room_id, move) {
   io.to(room_id).emit("turn complete", gamePlayData[room_id], move);
 }
 
-// function transactionHandler(amount, action) {
-//   let toContract = current_user.room_id;
-//   let client_id = current_user.client_id;
-
-//   game_chips.transfer(toContract, amount, client_id, action, (e, r) => {
-//     if (e) console.log(JSON.stringify(e));
-//     else {
-//       console.log(action + " Tx Hash " + r);
-//       socket.emit(action, current_user.room_id, current_user.client_id);
-//       //game_chips.allEvents();
-//     }
-//   });
-// }
-
 function endGame(room_id, win_indexes) {
   if (win_indexes.length == 1) {
     let cid = users[room_id][win_indexes[0]].client_id;
     let add = address_records[room_id][cid];
 
-    io.to(room_id).emit("game completed", gamePlayData[room_id], win_indexes);
     //handle this promise rejection.
     console.log("Sending to : " + add);
     game_chips_contract.methods
@@ -353,7 +106,10 @@ function endGame(room_id, win_indexes) {
         from: process.env.ACCOUNT,
       })
       .on("receipt", (confirmationNumber, receipt) => {
+        console.log(confirmationNumber);
+        console.log(receipt);
         console.log("confirmed transaction");
+        io.to(room_id).emit("game completed", gamePlayData[room_id], win_indexes);
       })
       .catch((e) => {
         if (e) {
@@ -383,6 +139,12 @@ function endGame(room_id, win_indexes) {
           gamePlayData[room_id],
           win_indexes
         );
+      })
+      .catch((e) => {
+        if (e) {
+          console.log("Error Occcured while running ON ");
+          console.log(JSON.stringify(e));
+        }
       });
   }
 
