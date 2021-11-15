@@ -1,7 +1,7 @@
 const Token = artifacts.require("Token");
 
 module.exports = function (deployer) {
-  deployer.deploy(Token,1000000000000000000000,1);
+  deployer.deploy(Token);
 };
 
 
