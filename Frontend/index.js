@@ -498,13 +498,14 @@ async function request_account() {
   game_chips = await game_chips_contract.at(
     "0xd12f5f5049D9Cf749Bfb3B7CC9E30ce394b2d0ba"
   );
-  console.log("Printing Game Chips " + game_chips.allEvents());
+
 
   // 1 CHP = 1000000000000 wei.
 
   // Smart Contract ABI .....
 
   web3_required();
+  console.log("Printing Game Chips " + game_chips.allEvents());
 
   game_chips.getBalance((e, r) => {
     if (e) {
@@ -567,6 +568,7 @@ function web3_required() {
         console.log(action + " Tx Hash " + r);
         socket.emit(action, current_user.room_id, current_user.client_id);
         game_chips.allEvents();
+        console.log("Called allevents() from Transactional Handler");
       }
     });
   }
