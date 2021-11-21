@@ -24,7 +24,7 @@ const io = require("socket.io")(http, {
 // web3 setup ......................................................
 
 
-process.env.ACCOUNT = "0x0A01b9fF422300177D54D4C09bf3961Eb2B417F2";
+process.env.ACCOUNT = "0x99B0153a0e37193297Ea86a02e0bFB8138C5399c";
 
 
 
@@ -33,7 +33,7 @@ process.env.ACCOUNT = "0x0A01b9fF422300177D54D4C09bf3961Eb2B417F2";
 // }
 
 
-var game_chips_contract = new web3.eth.Contract(ABI,"0xd12f5f5049D9Cf749Bfb3B7CC9E30ce394b2d0ba");
+var game_chips_contract = new web3.eth.Contract(ABI,"0xD568c276dC3551e204b96E6401F0830Fc41bdb26");
 
 console.log(game_chips_contract)
 
@@ -338,13 +338,25 @@ io.on("connection", (client) => {
     } else {
       var betValue = gamePlayData[room_id]["betValue"];
       if (gamePlayData[room_id]["user"][pidx]["blind"] == true) {
-        gamePlayData[room_id]["user"][pidx]["value"] -= betValue / 2;
-        gamePlayData[room_id]["pot"] += betValue / 2;
-        gamePlayData[room_id]["user"][pidx]["currentBet"] += betValue / 2;
-      } else {
-        gamePlayData[room_id]["user"][pidx]["value"] -= betValue;
-        gamePlayData[room_id]["pot"] += betValue;
-        gamePlayData[room_id]["user"][pidx]["currentBet"] += betValue;
+        if (gamePlayData[room_id]["user"][pidx]["value"] < betvalue/2){
+          alert("Please Add more tokens");
+        }
+        else{
+          gamePlayData[room_id]["user"][pidx]["value"] -= betValue / 2;
+          gamePlayData[room_id]["pot"] += betValue / 2;
+          gamePlayData[room_id]["user"][pidx]["currentBet"] += betValue / 2;  
+        }
+      } 
+
+      else {
+        if (gamePlayData[room_id]["user"][pidx]["value"] < betValue){
+          alert("Please Add more tokens");
+        }
+        else{
+          gamePlayData[room_id]["user"][pidx]["value"] -= betValue;
+          gamePlayData[room_id]["pot"] += betValue;
+          gamePlayData[room_id]["user"][pidx]["currentBet"] += betValue;  
+        }
       }
       updateTurn(room_id, "make bet");
     }
