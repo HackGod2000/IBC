@@ -496,7 +496,7 @@ async function request_account() {
 
   // Set the contract address
   game_chips = await game_chips_contract.at(
-    "0xd12f5f5049D9Cf749Bfb3B7CC9E30ce394b2d0ba"
+    "0xD568c276dC3551e204b96E6401F0830Fc41bdb26"
   );
   console.log("Printing Game Chips " + game_chips.allEvents());
 
@@ -1049,6 +1049,9 @@ var $fold = document.createElement("button");
 var $new_round = document.createElement("button");
 var $sideShowYes = document.createElement("button");
 var $sideShowNo = document.createElement("button");
+var $addmoney = document.createElement("button");
+
+
 // Gameplay Buttons....
 
 // $sort.disabled = true;
@@ -1068,6 +1071,7 @@ $poker.textContent = "Poker";
 $flip.textContent = "Flip";
 $distribute.textContent = "Distribute";
 $view.textContent = "View";
+$addmoney.textContent = "Add Tokens";
 $new_round.textContent = "New Round";
 
 // TextContent Set of gameplay buttons.....
@@ -1146,9 +1150,24 @@ $view.addEventListener("click", function () {
   );
 });
 
+$addmoney.addEventListener("click", function(){
+  var token_amount = $token_amount.value;
+  var ether_required = 1000000000000 * token_amount;
+
+  game_chips.buyTokens(token_amount, { value: ether_required }, (e, r) => {
+    if (e) {
+      console.log("Error while Buying :" + JSON.stringify(e));
+    } else {
+      console.log("Purchase successfull: " + r);
+    }
+  });
+});
+
+
 // side show response...
 function addGamePlayButtonsDOM() {
   if (!$topbar.contains($view)) $topbar.appendChild($view);
+  if (!$topbar.contains($addmoney)) $topbar.appendChild($addmoney);
   if (!$topbar.contains($bet)) $topbar.appendChild($bet);
   if (!$topbar.contains($raise)) $topbar.appendChild($raise);
   if (!$topbar.contains($sideShow)) $topbar.appendChild($sideShow);
@@ -1157,6 +1176,7 @@ function addGamePlayButtonsDOM() {
 }
 function removeGameplayButtonsDOM() {
   if ($topbar.contains($view)) $topbar.removeChild($view);
+  if (!$topbar.contains($addmoney)) $topbar.appendChild($addmoney);
   if ($topbar.contains($bet)) $topbar.removeChild($bet);
   if ($topbar.contains($raise)) $topbar.removeChild($raise);
   if ($topbar.contains($sideShow)) $topbar.removeChild($sideShow);
