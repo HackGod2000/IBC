@@ -86,402 +86,402 @@ async function request_account() {
 	// Smart Contract ABI .....
 
 	game_chips_contract = await web3.eth.contract([
-    {
-      "constant": true,
-      "inputs": [],
-      "name": "count",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [],
-      "name": "name",
-      "outputs": [
-        {
-          "internalType": "string",
-          "name": "",
-          "type": "string"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [],
-      "name": "getBalance",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [],
-      "name": "sendContractAmountToOwner",
-      "outputs": [],
-      "payable": true,
-      "stateMutability": "payable",
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "internalType": "string",
-          "name": "pot",
-          "type": "string"
-        },
-        {
-          "internalType": "address",
-          "name": "to1",
-          "type": "address"
-        },
-        {
-          "internalType": "address",
-          "name": "to2",
-          "type": "address"
-        }
-      ],
-      "name": "winnerTransferTie",
-      "outputs": [
-        {
-          "internalType": "bool",
-          "name": "",
-          "type": "bool"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "numberOfTokens",
-          "type": "uint256"
-        }
-      ],
-      "name": "buyTokens",
-      "outputs": [
-        {
-          "internalType": "bool",
-          "name": "",
-          "type": "bool"
-        }
-      ],
-      "payable": true,
-      "stateMutability": "payable",
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [
-        {
-          "internalType": "string",
-          "name": "id",
-          "type": "string"
-        }
-      ],
-      "name": "getBalancePot",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [],
-      "name": "etherAmount",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [],
-      "name": "standard",
-      "outputs": [
-        {
-          "internalType": "string",
-          "name": "",
-          "type": "string"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "internalType": "string",
-          "name": "pot",
-          "type": "string"
-        },
-        {
-          "internalType": "uint256",
-          "name": "numberOfTokens",
-          "type": "uint256"
-        },
-        {
-          "internalType": "string",
-          "name": "clientId",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "viaEvent",
-          "type": "string"
-        }
-      ],
-      "name": "transfer",
-      "outputs": [
-        {
-          "internalType": "bool",
-          "name": "",
-          "type": "bool"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "id",
-          "type": "address"
-        }
-      ],
-      "name": "getBalanceOther",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "internalType": "string",
-          "name": "pot",
-          "type": "string"
-        },
-        {
-          "internalType": "address",
-          "name": "to",
-          "type": "address"
-        }
-      ],
-      "name": "winnerTransfer",
-      "outputs": [
-        {
-          "internalType": "bool",
-          "name": "",
-          "type": "bool"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [],
-      "name": "getContractBalance",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "name": "balanceOf",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [],
-      "name": "tokenPrice",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [],
-      "name": "symbol",
-      "outputs": [
-        {
-          "internalType": "string",
-          "name": "",
-          "type": "string"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [
-        {
-          "internalType": "string",
-          "name": "",
-          "type": "string"
-        }
-      ],
-      "name": "balanceOfPot",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "constructor"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": true,
-          "internalType": "address",
-          "name": "_from",
-          "type": "address"
-        },
-        {
-          "indexed": false,
-          "internalType": "address",
-          "name": "_to",
-          "type": "address"
-        },
-        {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "_numberOfTokens",
-          "type": "uint256"
-        }
-      ],
-      "name": "Transfered",
-      "type": "event"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": true,
-          "internalType": "address",
-          "name": "_from",
-          "type": "address"
-        },
-        {
-          "indexed": false,
-          "internalType": "string",
-          "name": "_to",
-          "type": "string"
-        },
-        {
-          "indexed": false,
-          "internalType": "string",
-          "name": "_clientId",
-          "type": "string"
-        },
-        {
-          "indexed": false,
-          "internalType": "string",
-          "name": "_viaEvent",
-          "type": "string"
-        },
-        {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "_numberOfTokens",
-          "type": "uint256"
-        }
-      ],
-      "name": "TransferedToPot",
-      "type": "event"
-    }
-  ]);
+		{
+			constant: true,
+			inputs: [],
+			name: "count",
+			outputs: [
+				{
+					internalType: "uint256",
+					name: "",
+					type: "uint256",
+				},
+			],
+			payable: false,
+			stateMutability: "view",
+			type: "function",
+		},
+		{
+			constant: true,
+			inputs: [],
+			name: "name",
+			outputs: [
+				{
+					internalType: "string",
+					name: "",
+					type: "string",
+				},
+			],
+			payable: false,
+			stateMutability: "view",
+			type: "function",
+		},
+		{
+			constant: true,
+			inputs: [],
+			name: "getBalance",
+			outputs: [
+				{
+					internalType: "uint256",
+					name: "",
+					type: "uint256",
+				},
+			],
+			payable: false,
+			stateMutability: "view",
+			type: "function",
+		},
+		{
+			constant: false,
+			inputs: [],
+			name: "sendContractAmountToOwner",
+			outputs: [],
+			payable: true,
+			stateMutability: "payable",
+			type: "function",
+		},
+		{
+			constant: false,
+			inputs: [
+				{
+					internalType: "string",
+					name: "pot",
+					type: "string",
+				},
+				{
+					internalType: "address",
+					name: "to1",
+					type: "address",
+				},
+				{
+					internalType: "address",
+					name: "to2",
+					type: "address",
+				},
+			],
+			name: "winnerTransferTie",
+			outputs: [
+				{
+					internalType: "bool",
+					name: "",
+					type: "bool",
+				},
+			],
+			payable: false,
+			stateMutability: "nonpayable",
+			type: "function",
+		},
+		{
+			constant: false,
+			inputs: [
+				{
+					internalType: "uint256",
+					name: "numberOfTokens",
+					type: "uint256",
+				},
+			],
+			name: "buyTokens",
+			outputs: [
+				{
+					internalType: "bool",
+					name: "",
+					type: "bool",
+				},
+			],
+			payable: true,
+			stateMutability: "payable",
+			type: "function",
+		},
+		{
+			constant: true,
+			inputs: [
+				{
+					internalType: "string",
+					name: "id",
+					type: "string",
+				},
+			],
+			name: "getBalancePot",
+			outputs: [
+				{
+					internalType: "uint256",
+					name: "",
+					type: "uint256",
+				},
+			],
+			payable: false,
+			stateMutability: "view",
+			type: "function",
+		},
+		{
+			constant: true,
+			inputs: [],
+			name: "etherAmount",
+			outputs: [
+				{
+					internalType: "uint256",
+					name: "",
+					type: "uint256",
+				},
+			],
+			payable: false,
+			stateMutability: "view",
+			type: "function",
+		},
+		{
+			constant: true,
+			inputs: [],
+			name: "standard",
+			outputs: [
+				{
+					internalType: "string",
+					name: "",
+					type: "string",
+				},
+			],
+			payable: false,
+			stateMutability: "view",
+			type: "function",
+		},
+		{
+			constant: false,
+			inputs: [
+				{
+					internalType: "string",
+					name: "pot",
+					type: "string",
+				},
+				{
+					internalType: "uint256",
+					name: "numberOfTokens",
+					type: "uint256",
+				},
+				{
+					internalType: "string",
+					name: "clientId",
+					type: "string",
+				},
+				{
+					internalType: "string",
+					name: "viaEvent",
+					type: "string",
+				},
+			],
+			name: "transfer",
+			outputs: [
+				{
+					internalType: "bool",
+					name: "",
+					type: "bool",
+				},
+			],
+			payable: false,
+			stateMutability: "nonpayable",
+			type: "function",
+		},
+		{
+			constant: true,
+			inputs: [
+				{
+					internalType: "address",
+					name: "id",
+					type: "address",
+				},
+			],
+			name: "getBalanceOther",
+			outputs: [
+				{
+					internalType: "uint256",
+					name: "",
+					type: "uint256",
+				},
+			],
+			payable: false,
+			stateMutability: "view",
+			type: "function",
+		},
+		{
+			constant: false,
+			inputs: [
+				{
+					internalType: "string",
+					name: "pot",
+					type: "string",
+				},
+				{
+					internalType: "address",
+					name: "to",
+					type: "address",
+				},
+			],
+			name: "winnerTransfer",
+			outputs: [
+				{
+					internalType: "bool",
+					name: "",
+					type: "bool",
+				},
+			],
+			payable: false,
+			stateMutability: "nonpayable",
+			type: "function",
+		},
+		{
+			constant: true,
+			inputs: [],
+			name: "getContractBalance",
+			outputs: [
+				{
+					internalType: "uint256",
+					name: "",
+					type: "uint256",
+				},
+			],
+			payable: false,
+			stateMutability: "view",
+			type: "function",
+		},
+		{
+			constant: true,
+			inputs: [
+				{
+					internalType: "address",
+					name: "",
+					type: "address",
+				},
+			],
+			name: "balanceOf",
+			outputs: [
+				{
+					internalType: "uint256",
+					name: "",
+					type: "uint256",
+				},
+			],
+			payable: false,
+			stateMutability: "view",
+			type: "function",
+		},
+		{
+			constant: true,
+			inputs: [],
+			name: "tokenPrice",
+			outputs: [
+				{
+					internalType: "uint256",
+					name: "",
+					type: "uint256",
+				},
+			],
+			payable: false,
+			stateMutability: "view",
+			type: "function",
+		},
+		{
+			constant: true,
+			inputs: [],
+			name: "symbol",
+			outputs: [
+				{
+					internalType: "string",
+					name: "",
+					type: "string",
+				},
+			],
+			payable: false,
+			stateMutability: "view",
+			type: "function",
+		},
+		{
+			constant: true,
+			inputs: [
+				{
+					internalType: "string",
+					name: "",
+					type: "string",
+				},
+			],
+			name: "balanceOfPot",
+			outputs: [
+				{
+					internalType: "uint256",
+					name: "",
+					type: "uint256",
+				},
+			],
+			payable: false,
+			stateMutability: "view",
+			type: "function",
+		},
+		{
+			inputs: [],
+			payable: false,
+			stateMutability: "nonpayable",
+			type: "constructor",
+		},
+		{
+			anonymous: false,
+			inputs: [
+				{
+					indexed: true,
+					internalType: "address",
+					name: "_from",
+					type: "address",
+				},
+				{
+					indexed: false,
+					internalType: "address",
+					name: "_to",
+					type: "address",
+				},
+				{
+					indexed: false,
+					internalType: "uint256",
+					name: "_numberOfTokens",
+					type: "uint256",
+				},
+			],
+			name: "Transfered",
+			type: "event",
+		},
+		{
+			anonymous: false,
+			inputs: [
+				{
+					indexed: true,
+					internalType: "address",
+					name: "_from",
+					type: "address",
+				},
+				{
+					indexed: false,
+					internalType: "string",
+					name: "_to",
+					type: "string",
+				},
+				{
+					indexed: false,
+					internalType: "string",
+					name: "_clientId",
+					type: "string",
+				},
+				{
+					indexed: false,
+					internalType: "string",
+					name: "_viaEvent",
+					type: "string",
+				},
+				{
+					indexed: false,
+					internalType: "uint256",
+					name: "_numberOfTokens",
+					type: "uint256",
+				},
+			],
+			name: "TransferedToPot",
+			type: "event",
+		},
+	]);
 
 	// Set the contract address
 	game_chips = await game_chips_contract.at(
@@ -494,7 +494,6 @@ async function request_account() {
 	// Smart Contract ABI .....
 
 	web3_required();
-
 
 	await game_chips.getBalance((e, r) => {
 		if (e) {
@@ -636,7 +635,6 @@ function web3_required() {
 		}
 	});
 
-  
 	// request show...
 }
 
@@ -689,25 +687,30 @@ $create_game_div.addEventListener("click", (e) => {
 $join_game_div.addEventListener("click", (e) => {
 	const name = $name_input_join_game.value;
 
-	if (name == "") {
-		name_required_2.style.display = "block";
-		return;
+	if ($connect_metamask_button.disabled === true) {
+		if (name == "") {
+			name_required_2.style.display = "block";
+			return;
+		} else {
+			name_required_2.style.display = "none";
+		}
+
+		const room_id = $room_id_input.value;
+
+		if (room_id == "") {
+			room_id_required.style.display = "block";
+			return;
+		} else {
+			room_id_required.style.display = "none";
+		}
+
+		current_user.name = name;
+
+		socket.emit("join game", name, room_id);
 	} else {
-		name_required_2.style.display = "none";
-	}
-
-	const room_id = $room_id_input.value;
-
-	if (room_id == "") {
-		room_id_required.style.display = "block";
+		name_required_3.style.display = "block";
 		return;
-	} else {
-		room_id_required.style.display = "none";
 	}
-
-	current_user.name = name;
-
-	socket.emit("join game", name, room_id);
 });
 
 $start_game_div.addEventListener("click", (e) => {
@@ -1041,7 +1044,6 @@ var $new_round = document.createElement("button");
 var $sideShowYes = document.createElement("button");
 var $sideShowNo = document.createElement("button");
 
-
 // Gameplay Buttons....
 
 // $sort.disabled = true;
@@ -1141,29 +1143,24 @@ $view.addEventListener("click", function () {
 });
 
 $addMoney.addEventListener("click", async function () {
+	var token_amount = 100;
+	var ether_required = 1000000000000 * token_amount;
+	console.log(token_amount);
 
-
-  var token_amount = 100;
-  var ether_required = 1000000000000 * token_amount;
-  console.log(token_amount);
-
-  await game_chips.buyTokens(
-    token_amount,
-    { value: ether_required },
-    async (e, r) => {
-      if (e) {
-        console.log("Error while Buying :" + JSON.stringify(e));
-      } else {
-        console.log("Purchase successfull: " + r);
-        let updatedBalanceOfPlayer = await game_chips.getBalance();
-        console.log(updatedBalanceOfPlayer);
-      }
-    }
-  );
+	await game_chips.buyTokens(
+		token_amount,
+		{ value: ether_required },
+		async (e, r) => {
+			if (e) {
+				console.log("Error while Buying :" + JSON.stringify(e));
+			} else {
+				console.log("Purchase successfull: " + r);
+				let updatedBalanceOfPlayer = await game_chips.getBalance();
+				console.log(updatedBalanceOfPlayer);
+			}
+		}
+	);
 });
-
-
-
 
 // side show response...
 function addGamePlayButtonsDOM() {
@@ -1173,7 +1170,7 @@ function addGamePlayButtonsDOM() {
 	if (!$topbar.contains($sideShow)) $topbar.appendChild($sideShow);
 	if (!$topbar.contains($show)) $topbar.appendChild($show);
 	if (!$topbar.contains($fold)) $topbar.appendChild($fold);
-  if (!$topbar.contains($addMoney)) $topbar.appendChild($addMoney);
+	if (!$topbar.contains($addMoney)) $topbar.appendChild($addMoney);
 }
 function removeGameplayButtonsDOM() {
 	if ($topbar.contains($view)) $topbar.removeChild($view);
@@ -1182,7 +1179,7 @@ function removeGameplayButtonsDOM() {
 	if ($topbar.contains($sideShow)) $topbar.removeChild($sideShow);
 	if ($topbar.contains($show)) $topbar.removeChild($show);
 	if ($topbar.contains($fold)) $topbar.removeChild($fold);
-  if (!$topbar.contains($addMoney)) $topbar.appendChild($addMoney);
+	if (!$topbar.contains($addMoney)) $topbar.appendChild($addMoney);
 }
 $sideShowYes.addEventListener("click", function () {
 	$topbar.removeChild($sideShowYes);
