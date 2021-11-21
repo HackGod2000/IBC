@@ -11,7 +11,6 @@ contract Token{
     uint256 public etherAmount;
     address payable owner;
 
-
     // address to balance
     mapping (address => uint256) public balanceOf;
     
