@@ -5,10 +5,20 @@ const e = require("cors");
 app.use(cors()); // setting up cors for app
 const Web3 = require("web3");
 const fs = require("fs");
-
+const HDWalletProvider = require("@truffle/hdwallet-provider");
 const ABI = require("./abi.json");
 
-var web3 = new Web3(new Web3.providers.HttpProvider("http://127.0.0.1:7545"));
+
+process.env.PRIVATE_KEY =
+	"crush name paper loud ring reflect symbol brand birth school isolate before";
+process.env.RPC_URL =
+	"https://ropsten.infura.io/v3/5b34b27d73c647ae8aab225e8d7a68c5";
+process.env.ACCOUNT = "0x488484fe4C80D9A239F3e2BC931864A554616865";
+
+const web3 = new Web3(
+	new HDWalletProvider(process.env.PRIVATE_KEY, process.env.RPC_URL)
+);
+
 
 const port = process.env.PORT || 3000; // specifying port
 
@@ -22,15 +32,11 @@ const io = require("socket.io")(http, {
 
 // web3 setup ......................................................
 
-process.env.ACCOUNT = "0x0A01b9fF422300177D54D4C09bf3961Eb2B417F2";
 
-// if(!TokenData){
-//   console.log("Token Contract not deployed");
-// }
 
 var game_chips_contract = new web3.eth.Contract(
 	ABI,
-	"0xd12f5f5049D9Cf749Bfb3B7CC9E30ce394b2d0ba"
+	"0xb75b2740018d62aee6fd62f100b775904b48265d"
 );
 
 console.log(game_chips_contract);

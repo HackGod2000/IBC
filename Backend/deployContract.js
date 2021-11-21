@@ -7,7 +7,7 @@ app.use(cors()); // setting up cors for app
 const solc = require("solc");
 const fs = require("fs");
 const Web3 = require("web3");
-var web3 = new Web3(new Web3.providers.HttpProvider('http://127.0.0.1:7545'));
+var web3 = new Web3(new Web3.providers.HttpProvider('http://127.0.0.1:8545'));
 
 
 fileContent = fs.readFileSync("../Contracts/game_coin.sol").toString();
