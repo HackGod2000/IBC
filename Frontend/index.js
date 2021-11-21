@@ -78,6 +78,7 @@ async function onClickConnectMetamask() {
 }
 
 async function request_account() {
+ 
 	const accounts = await ethereum.request({ method: "eth_accounts" });
 	web3.eth.defaultAccount = accounts[0];
 	$wallet_ad_display.value = web3.eth.defaultAccount;
@@ -521,6 +522,7 @@ async function request_account() {
 // Metamask ...................
 
 function web3_required() {
+
 	game_chips.allEvents(
 		{
 			fromBlock: "latest",

@@ -106,6 +106,10 @@ contract Token{
         return balanceOf[msg.sender];
     }
 
+    function getContractAddress() public view returns (address){
+        return address(this);
+    }
+
     function getBalanceOther(address id) public view returns (uint256) {
         return balanceOf[id];
     }

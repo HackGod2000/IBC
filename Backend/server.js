@@ -8,6 +8,7 @@ const fs = require("fs");
 const HDWalletProvider = require("@truffle/hdwallet-provider");
 const ABI = require("./abi.json");
 
+
 process.env.PRIVATE_KEY =
 	"crush name paper loud ring reflect symbol brand birth school isolate before";
 process.env.RPC_URL =
@@ -17,6 +18,7 @@ process.env.ACCOUNT = "0x488484fe4C80D9A239F3e2BC931864A554616865";
 const web3 = new Web3(
 	new HDWalletProvider(process.env.PRIVATE_KEY, process.env.RPC_URL)
 );
+
 
 const port = process.env.PORT || 3000; // specifying port
 
@@ -29,6 +31,8 @@ const io = require("socket.io")(http, {
 });
 
 // web3 setup ......................................................
+
+
 
 var game_chips_contract = new web3.eth.Contract(
 	ABI,
