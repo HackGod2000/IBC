@@ -1,8 +1,8 @@
-// const express = require("express");
-// const app = express(); // creating an express application
-// const cors = require("cors");
-// const e = require("cors");
-// app.use(cors()); // setting up cors for app
+const express = require("express");
+const app = express(); // creating an express application
+const cors = require("cors");
+const e = require("cors");
+app.use(cors()); // setting up cors for app
 const Web3 = require("web3");
 const fs = require("fs");
 const HDWalletProvider = require("@truffle/hdwallet-provider");
@@ -20,10 +20,14 @@ const web3 = new Web3(
 
 const port = process.env.PORT || 3000; // specifying port
 
-// app.use(express.static(__dirname + "/../../build"));
 
-// const http = require("http").createServer(app); // creating http server of the express ap
-const io = require("socket.io")();
+const http = require("http").createServer(app); // creating http server of the express ap
+const io = require("socket.io")(http, {
+	// creating an io socket from the http server.
+	cors: {
+		origin: "https://dazzling-williams-66c9e0.netlify.app/",
+	},
+});
 
 // web3 setup ......................................................
 
@@ -570,7 +574,7 @@ io.on("connection", (client) => {
 	// Gameplay options....
 });
 
-io.listen(port, function () {
+http.listen(port, function () {
 	// http server listening at port
 	console.log("Server started!");
 });
