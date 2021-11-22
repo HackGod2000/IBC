@@ -25,7 +25,7 @@ const http = require("http").createServer(app); // creating http server of the e
 const io = require("socket.io")(http, {
 	// creating an io socket from the http server.
 	cors: {
-		origin: "https://dazzling-williams-66c9e0.netlify.app/",
+		origin: "*",
 	},
 });
 
