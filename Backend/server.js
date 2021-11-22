@@ -570,7 +570,7 @@ io.on("connection", (client) => {
 	// Gameplay options....
 });
 
-http.listen(port, function () {
+io.listen(port, function () {
 	// http server listening at port
 	console.log("Server started!");
 });
