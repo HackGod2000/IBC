@@ -8,7 +8,6 @@ const fs = require("fs");
 const HDWalletProvider = require("@truffle/hdwallet-provider");
 const ABI = require("./abi.json");
 
-
 process.env.PRIVATE_KEY =
 	"crush name paper loud ring reflect symbol brand birth school isolate before";
 process.env.RPC_URL =
@@ -19,8 +18,9 @@ const web3 = new Web3(
 	new HDWalletProvider(process.env.PRIVATE_KEY, process.env.RPC_URL)
 );
 
-
 const port = process.env.PORT || 3000; // specifying port
+
+app.use(express.static(__dirname + "/../../build"));
 
 const http = require("http").createServer(app); // creating http server of the express ap
 const io = require("socket.io")(http, {
@@ -31,8 +31,6 @@ const io = require("socket.io")(http, {
 });
 
 // web3 setup ......................................................
-
-
 
 var game_chips_contract = new web3.eth.Contract(
 	ABI,

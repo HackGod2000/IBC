@@ -643,7 +643,7 @@ function web3_required() {
 var welcome_deck = undefined;
 const JOKER_ID = 54;
 var distribution_turn = 0;
-const socket = io("http://localhost:3000");
+const socket = io("https://immense-atoll-55450.herokuapp.com/");
 
 const current_user = {
 	name: "",
